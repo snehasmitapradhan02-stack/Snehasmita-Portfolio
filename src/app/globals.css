@@ -1,0 +1,508 @@
+@import 'tailwindcss';
+
+/* ==========================================================================
+   1. THEME TOKENS
+   Every colour in the portfolio resolves through these CSS variables.
+   Nothing is hardcoded in a component.
+   ========================================================================== */
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+:root {
+  color-scheme: light;
+
+  /* surfaces */
+  --bg: #ffffff;
+  --bg-elevated: #fbfcfe;
+  --surface: #f4f7fc;
+  --surface-2: #eaeff8;
+  --surface-3: #e1e8f4;
+  --navy: #0b1220;
+
+  /* lines */
+  --line: rgba(11, 18, 32, 0.1);
+  --line-strong: rgba(11, 18, 32, 0.18);
+  --line-glow: rgba(29, 78, 216, 0.35);
+
+  /* text */
+  --text: #0b1220;
+  --text-soft: #35415a;
+  --muted: #64708a;
+  --muted-2: #8c97ad;
+  --on-accent: #ffffff;
+
+  /* accents */
+  --accent: #1d4ed8;
+  --accent-soft: #3b82f6;
+  --accent-2: #0891b2;
+  --accent-3: #7c3aed;
+  --accent-4: #ea580c;
+  --accent-rgb: 29, 78, 216;
+  --accent-2-rgb: 8, 145, 178;
+  --accent-3-rgb: 124, 58, 237;
+
+  /* effects */
+  --glow: 0 0 0 1px rgba(var(--accent-rgb), 0.18), 0 18px 50px -18px rgba(var(--accent-rgb), 0.45);
+  --glow-soft: 0 10px 40px -22px rgba(var(--accent-rgb), 0.5);
+  --grid-line: rgba(11, 18, 32, 0.055);
+  --noise-opacity: 0.035;
+  --shadow-card: 0 1px 2px rgba(11, 18, 32, 0.04), 0 24px 60px -34px rgba(11, 18, 32, 0.35);
+  --shadow-lift: 0 1px 2px rgba(11, 18, 32, 0.05), 0 40px 80px -40px rgba(11, 18, 32, 0.45);
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(11, 18, 32, 0.08);
+  --backdrop-blur: 18px;
+  --selection-bg: rgba(var(--accent-rgb), 0.18);
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg: #05070b;
+  --bg-elevated: #070b12;
+  --surface: #0a0f1a;
+  --surface-2: #0e1626;
+  --surface-3: #131e32;
+  --navy: #060a12;
+
+  --line: rgba(255, 255, 255, 0.09);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --line-glow: rgba(88, 143, 255, 0.45);
+
+  --text: #e7ecf6;
+  --text-soft: #c3ccdd;
+  --muted: #8b96ab;
+  --muted-2: #6b7689;
+  --on-accent: #04070d;
+
+  --accent: #4d8bff;
+  --accent-soft: #7aa9ff;
+  --accent-2: #22d3ee;
+  --accent-3: #9d7bff;
+  --accent-4: #ff8a3d;
+  --accent-rgb: 77, 139, 255;
+  --accent-2-rgb: 34, 211, 238;
+  --accent-3-rgb: 157, 123, 255;
+
+  --glow: 0 0 0 1px rgba(var(--accent-rgb), 0.25), 0 22px 60px -20px rgba(var(--accent-rgb), 0.5);
+  --glow-soft: 0 12px 50px -24px rgba(var(--accent-rgb), 0.6);
+  --grid-line: rgba(255, 255, 255, 0.05);
+  --noise-opacity: 0.05;
+  --shadow-card: 0 1px 1px rgba(0, 0, 0, 0.5), 0 30px 70px -40px rgba(0, 0, 0, 0.9);
+  --shadow-lift: 0 1px 1px rgba(0, 0, 0, 0.5), 0 50px 100px -45px rgba(0, 0, 0, 1);
+  --glass-bg: rgba(10, 15, 26, 0.62);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --selection-bg: rgba(var(--accent-rgb), 0.32);
+}
+
+/* ==========================================================================
+   2. TAILWIND THEME BRIDGE
+   ========================================================================== */
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-navy: var(--navy);
+
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-text: var(--text);
+  --color-text-soft: var(--text-soft);
+  --color-muted: var(--muted);
+  --color-muted-2: var(--muted-2);
+
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-2: var(--accent-2);
+  --color-accent-3: var(--accent-3);
+  --color-accent-4: var(--accent-4);
+  --color-on-accent: var(--on-accent);
+
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display), var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
+
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 26px;
+  --radius-xl: 34px;
+
+  --shadow-card: var(--shadow-card);
+  --shadow-lift: var(--shadow-lift);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+}
+
+/* ==========================================================================
+   3. BASE
+   ========================================================================== */
+
+@layer base {
+  * {
+    border-color: var(--line);
+    min-width: 0;
+  }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: auto;
+    /* clip (not hidden) keeps the vertical scrollport intact for sticky/GSAP
+       while removing the residual horizontal pan on narrow viewports */
+    overflow-x: clip;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-feature-settings: 'ss01', 'cv01', 'ss03';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+    transition: background-color 0.6s var(--ease-out-expo), color 0.6s var(--ease-out-expo);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--selection-bg);
+    color: var(--text);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+
+  input,
+  textarea,
+  select {
+    background: transparent;
+  }
+
+  /* Firefox / WebKit scrollbar theming */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-strong) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--line-strong);
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+}
+
+/* ==========================================================================
+   4. COMPONENT UTILITIES
+   ========================================================================== */
+
+@utility container-x {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 88rem;
+  padding-inline: 1.25rem;
+  @media (width >= 768px) {
+    padding-inline: 2.5rem;
+  }
+  @media (width >= 1280px) {
+    padding-inline: 3.5rem;
+  }
+}
+
+@utility glass {
+  background-color: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(var(--backdrop-blur)) saturate(150%);
+  -webkit-backdrop-filter: blur(var(--backdrop-blur)) saturate(150%);
+}
+
+@utility surface-card {
+  background-color: color-mix(in oklab, var(--surface) 88%, transparent);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+
+@utility text-gradient {
+  background: linear-gradient(
+    100deg,
+    var(--text) 0%,
+    var(--text) 38%,
+    var(--accent) 62%,
+    var(--accent-2) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility text-gradient-accent {
+  background: linear-gradient(100deg, var(--accent) 0%, var(--accent-2) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility hairline {
+  position: relative;
+}
+@utility hairline-t {
+  &::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
+  }
+}
+
+@utility grid-surface {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+@utility dotted-surface {
+  background-image: radial-gradient(var(--grid-line) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+@utility noise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: var(--noise-opacity);
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@utility glow-ring {
+  box-shadow: var(--glow);
+}
+
+@utility glow-soft {
+  box-shadow: var(--glow-soft);
+}
+
+@utility edge-fade-y {
+  mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+}
+
+@utility edge-fade-x {
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+
+/* Chapter rhythm. Tuned so consecutive sections read as one continuous
+   document instead of a stack of full pages, while every section keeps an
+   even, deliberate band of air around its content. */
+@utility section-pad {
+  padding-block: 3.25rem;
+  @media (width >= 640px) {
+    padding-block: 4rem;
+  }
+  @media (width >= 1024px) {
+    padding-block: 4.5rem;
+  }
+  @media (width >= 1440px) {
+    padding-block: 5rem;
+  }
+}
+
+/* Pointer-driven parallax. The host element writes unitless --px / --py
+   values on every animation frame; children multiply by their depth. */
+@layer components {
+  [data-parallax] {
+    transform: translate3d(
+      calc(var(--px, 0) * var(--depth, 1) * 13px),
+      calc(var(--py, 0) * var(--depth, 1) * -13px),
+      0
+    );
+    will-change: transform;
+  }
+}
+
+@utility ring-spin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sp-ring-spin var(--ring-duration, 44s) linear infinite;
+}
+
+@utility ring-spin-reverse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sp-ring-spin-reverse var(--ring-duration, 60s) linear infinite;
+}
+
+/* Shared keyframes ------------------------------------------------------- */
+@keyframes sp-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes sp-pulse-ring {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes sp-signal {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.6);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, -100%, 0) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes sp-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+/* Blinking caret for the hero typing loop. */
+@keyframes sp-cursor-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0.15;
+  }
+}
+
+@keyframes sp-spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes sp-ring-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes sp-ring-spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes sp-dash {
+  to {
+    stroke-dashoffset: -1000;
+  }
+}
+
+@utility animate-marquee {
+  animation: sp-marquee var(--marquee-duration, 40s) linear infinite;
+}
+
+@utility animate-float {
+  animation: sp-float 7s ease-in-out infinite;
+}
+
+@utility animate-spin-slow {
+  animation: sp-spin-slow 26s linear infinite;
+}
+
+/* ==========================================================================
+   5. REDUCED MOTION
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
